@@ -1,11 +1,7 @@
 class Solution:
-    def majorityElement(self, nums: List[int]) -> List[int]:
-        counts = {}
-        for num in nums:
-            counts[num] = counts.get(num, 0) + 1
-        result = []
-        for num, count in counts.items():
-            if count > len(nums) // 3:
-                result.append(num)
-
-        return result
+    def canJump(self, nums: List[int]) -> bool:
+        goal=len(nums)-1
+        for i in range(len(nums)-1,-1,-1):
+            if i+nums[i]>=goal:
+                goal=i
+        return True if goal==0 else False

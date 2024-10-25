@@ -1,12 +1,17 @@
 class Solution:
-    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        dp = [True] + [False] * len(s)
-
-        for i in range(1, len(s) + 1):
-            for w in wordDict:
-                start = i - len(w)
-                if start >= 0 and dp[start] and s[start:i] == w:
-                    dp[i] = True
-                    break
+    def permuteUnique(self, nums: List[int]) -> List[List[int]]:
+        if len(nums) == 1:
+            return [nums]
+        l = []
+        for i in range(len(nums)):
+            element = nums[i]
+            remaining = nums[:i] + nums[i+1:]
+            perms = self.permuteUnique(remaining)
+            for perm in perms:
+                l.append(perm + [element])
+        k = []
+        for i in l:
+            if i not in k:
+                k.append(i)
+        return k
         
-        return dp[-1]

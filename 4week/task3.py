@@ -1,17 +1,21 @@
+def isInInterval(start,end,target):
+        if target >= start and target<=end:
+            return True
+        return False
 class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
-        if len(nums) == 0:
-            return 0 
-
-        nums.sort() 
-        longest = 0
-        curr_length = 1
-
-        for i in range(1, len(nums)):
-            if nums[i] == nums[i-1] + 1:
-                curr_length += 1
-            elif nums[i] != nums[i-1]:
-                longest = max(longest, curr_length)
-                curr_length = 1
-
-        return max(longest, curr_length)
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+        sorted_list = sorted(intervals, key=lambda x: (x[0], x[1]))
+        ans = []
+        for ind,item in enumerate(sorted_list):
+            if len(ans) == 0:
+                ans.append(item)
+                continue
+            else:
+                last_item = ans[len(ans) - 1]
+                if isInInterval(last_item[0],last_item[1],item[0]):
+                    #Overlap
+                    ans[len(ans)-1][1] = max(ans[len(ans)-1][1],item[1])
+                else:
+                    ans.append(item)
+        return ans
+                
