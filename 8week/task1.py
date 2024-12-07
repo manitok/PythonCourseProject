@@ -1,20 +1,31 @@
 """
-https://leetcode.com/problem-list/binary-tree/
-url: https://leetcode.com/problems/unique-binary-search-trees-ii/description/
+https://leetcode.com/problem-list/sliding-window/
+url: https://leetcode.com/problems/get-equal-substrings-within-budget/description
 """
 
 class Solution:
-    def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
-        def generateTree(left, right):
-            if left > right:
-                return [None]
-            res = []
-            for i in range(left, right + 1):
-                for leftTree in generateTree(left, i - 1):
-                    for rightTree in generateTree(i + 1, right):
-                        root = TreeNode(i, leftTree, rightTree)
-                        res.append(root)
-            return res
-        return generateTree(1, n)
+    def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
 
-    
+        diff = []
+        remCost = maxCost
+        maxLen = 0
+
+        for i in range(len(s)):
+            diff.append(abs(ord(s[i])- ord(t[i])))
+        
+        i = 0
+        j = 0
+
+        while j < len(diff):
+            remCost -= diff[j]
+            if remCost >= 0:
+                currLen = j - i + 1
+                maxLen = max(currLen, maxLen)
+                j += 1
+            else:
+                remCost += diff[i]
+                i += 1
+                j += 1
+        return maxLen
+
+        
